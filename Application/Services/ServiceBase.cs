@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Application.Constants;
 using Application.Exception;
-using Application.Dto.Product;
 
 namespace Application.Services
 {
@@ -50,8 +49,9 @@ namespace Application.Services
         {
             var document = Mapper.Map<TDto, TDocument>(dto);
 
-            var ekmek = Mapper.Map<ProductDto, Domain.Aggregates.Product.Product>(dto as ProductDto);
-
+            //set new members
+            dto.Id = document.Id;
+            dto.CreatedAt = document.CreatedAt;
 
             return Repository.InsertOneAsync(document);
         }

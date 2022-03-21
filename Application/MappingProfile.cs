@@ -13,27 +13,29 @@ namespace Application
     {
         public MappingProfile()
         {
+            CreateMap<Document, DtoBase>();
             CreateMap<DtoBase, Document>()
-                .ConstructUsing(src => new Document(src.Id))
-                .ReverseMap();
+                .ConvertUsing(src => new Document(src.Id));
 
             CreateMap(typeof(ListDocumentResponse<>), typeof(ListDtoResponse<>));
 
+            CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>()
-              .IncludeBase<DtoBase, Document>()
-              .ConstructUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice))
-              .ReverseMap();
+              .ConvertUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice));
 
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<Order, OrderDto>();
             CreateMap<OrderDto, Order>()
-                .ConstructUsing(src => new Order(ObjectId.GenerateNewId().ToString(), src.Username))
-                .AfterMap((src, dest) =>
+                .ConvertUsing((src, dest) =>
                 {
+                    var order = new Order(ObjectId.GenerateNewId().ToString(), src.Username);
+
                     foreach (var item in src.Items)
                     {
-                        dest.AddItem(item.ProductId, item.UnitPrice, item.Quantity);
+                        order.AddItem(item.ProductId, item.UnitPrice, item.Quantity);
                     }
+
+                    return order;
                 });
         }
     }

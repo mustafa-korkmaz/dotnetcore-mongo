@@ -5,10 +5,11 @@ namespace Domain.Aggregates.Order
     {
         public string Username { get; private set; }
 
-        public decimal Price => _items.Sum(x => x.GetPrice());
+        public decimal Price => Items.Sum(x => x.GetPrice());
 
-        private readonly List<OrderItem> _items;
-        public IReadOnlyCollection<OrderItem> Items => _items;
+        //todo Items data cannot be retrieved
+        private List<OrderItem> _items;
+        public IReadOnlyCollection<OrderItem> Items { get; private set; }
 
         public Order(string id, string username) : base(id)
         {

@@ -12,6 +12,7 @@ namespace Infrastructure.Persistance.MongoDb
             BsonClassMap.RegisterClassMap<Order>(map =>
             {
                 map.AutoMap();
+                map.MapProperty(x => x.Items);
                 map.SetIgnoreExtraElements(true);
             });
 

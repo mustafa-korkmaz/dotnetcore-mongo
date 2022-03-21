@@ -8,18 +8,18 @@ namespace Presentation.ViewModels.Order
         public string Username { get; set; }
 
         [Required]
-        public IReadOnlyCollection<AddEditOrderItemViewModel> Items { get; set; }
+        public ICollection<AddEditOrderItemViewModel> Items { get; set; }
     }
 
     public class AddEditOrderItemViewModel
     {
         [Required]
-        public string ProductId { get; private set; }
+        public string ProductId { get; set; }
 
         [Required]
-        public decimal UnitPrice { get; private set; }
+        public decimal UnitPrice { get; set; }
 
         [Required]
-        public int Quantity { get; private set; }
+        public int Quantity { get; set; }
     }
 }
