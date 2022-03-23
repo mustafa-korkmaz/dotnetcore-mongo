@@ -14,6 +14,6 @@ namespace Application.Constants
 
         public const string InternalServerError = "An unexpected error has occurred";
 
-        public const string InsufficientStock = "Insufficient stock quantity";
+        public const string InsufficientStocks = "Insufficient stock quantity";
     }
 }

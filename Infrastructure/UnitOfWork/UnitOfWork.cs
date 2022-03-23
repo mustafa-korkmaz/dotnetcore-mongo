@@ -16,17 +16,7 @@ namespace Infrastructure.UnitOfWork
             _context = context;
             _repositories = new Dictionary<string, object>();
         }
-        public Task<int> SaveChangesAsync()
-        {
-            //todo
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
-
+    
         public TRepository GetRepository<TRepository, TDocument>()
             where TRepository : IRepository<TDocument>
             where TDocument : IDocument
@@ -52,5 +42,16 @@ namespace Infrastructure.UnitOfWork
             }
             return (TRepository)_repositories[type];
         }
+
+        public Task CreateTransactionAsync(Action transactionBody)
+        {
+           return _context.SaveTransactionalChangesAsync(transactionBody);
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+
     }
 }

@@ -25,9 +25,24 @@ namespace Infrastructure.Persistance.MongoDb
             return _database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public Task<int> SaveChanges()
+        public async Task SaveTransactionalChangesAsync(Action transactionBody)
         {
-            throw new NotImplementedException();
+            using (_session = await _mongoClient.StartSessionAsync())
+            {
+                try
+                {
+                    _session.StartTransaction();
+
+                    transactionBody.Invoke();
+
+                    await _session.CommitTransactionAsync();
+                }
+                catch (Exception)
+                {
+                    await _session.AbortTransactionAsync();
+                    throw;
+                }
+            }
         }
 
         private protected string GetCollectionName(Type documentType)

@@ -35,25 +35,28 @@ namespace Application.Services.Order
 
             //requires transactional operation
 
-            foreach (var item in products)
+            await Uow.CreateTransactionAsync(async () =>
             {
-                var orderItem = document.Items.First(p => p.ProductId == item.Id);
-
-                item.RemoveStock(orderItem.Quantity);
-
-                if (item.StockQuantity < 0)
+                foreach (var item in products)
                 {
-                    throw new ValidationException(ErrorMessages.InsufficientStock);
+                    var orderItem = document.Items.First(p => p.ProductId == item.Id);
+
+                    item.RemoveStock(orderItem.Quantity);
+
+                    if (item.StockQuantity < 0)
+                    {
+                        throw new ValidationException(ErrorMessages.InsufficientStocks);
+                    }
+
+                    await _productRepository.ReplaceOneAsync(item);
+
+                    //set new members
+                    dto.Id = document.Id;
+                    dto.CreatedAt = document.CreatedAt;
+
+                    await Repository.InsertOneAsync(document);
                 }
-
-                await _productRepository.ReplaceOneAsync(item);
-            }
-
-            //set new members
-            dto.Id = document.Id;
-            dto.CreatedAt = document.CreatedAt;
-
-            await Repository.InsertOneAsync(document);
+            });
         }
     }
 }

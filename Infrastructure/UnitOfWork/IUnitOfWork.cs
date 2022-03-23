@@ -5,7 +5,7 @@ namespace Infrastructure.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task<int> SaveChangesAsync();
+        Task CreateTransactionAsync(Action transactionBody);
 
         /// <summary>
         /// Returns document repository inherited from  IRepository
