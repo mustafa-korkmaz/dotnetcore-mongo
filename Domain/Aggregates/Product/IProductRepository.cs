@@ -2,6 +2,6 @@
 {
     public interface IProductRepository : IRepository<Product>
     {
-
+        Task<IReadOnlyCollection<Product>> ListByIdsAsync(string[] ids);
     }
 }

@@ -8,11 +8,19 @@
 
         public decimal UnitPrice { get; private set; }
 
-        public Product(string id, string sku, string name, decimal unitPrice) : base(id)
+        public int StockQuantity { get; private set; }
+
+        public Product(string id, string sku, string name, decimal unitPrice, int stockQuantity) : base(id)
         {
             Sku = sku;
             Name = name;
             UnitPrice = unitPrice;
+            StockQuantity = stockQuantity;
+        }
+
+        public void RemoveStock(int quantity)
+        {
+            StockQuantity -= quantity;
         }
     }
 }

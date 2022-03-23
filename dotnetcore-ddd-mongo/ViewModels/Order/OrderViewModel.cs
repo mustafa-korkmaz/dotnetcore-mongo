@@ -3,6 +3,8 @@ namespace Presentation.ViewModels.Order
 {
     public class OrderViewModel : ViewModelBase
     {
+        public decimal Price { get; set; } 
+
         public string Username { get; set; }
 
         public IReadOnlyCollection<OrderItemViewModel> Items { get; set; }

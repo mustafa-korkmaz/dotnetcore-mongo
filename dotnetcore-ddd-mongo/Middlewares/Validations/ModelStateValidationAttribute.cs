@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Presentation.Middleware.Validations
+namespace Presentation.Middlewares.Validations
 {
     public class ModelStateValidationAttribute : ActionFilterAttribute
     {

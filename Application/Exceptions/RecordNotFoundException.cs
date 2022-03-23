@@ -1,6 +1,6 @@
-﻿namespace Application.Exception
+﻿namespace Application.Exceptions
 {
-    public class RecordNotFoundException : System.Exception
+    public class RecordNotFoundException : Exception
     {
         public RecordNotFoundException(string message) : base(message)
         {

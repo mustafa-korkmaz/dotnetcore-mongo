@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Presentation.Middlewares.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.ViewModels.Order
 {
@@ -13,7 +14,7 @@ namespace Presentation.ViewModels.Order
 
     public class AddEditOrderItemViewModel
     {
-        [Required]
+        [ObjectIdValidation]
         public string ProductId { get; set; }
 
         [Required]

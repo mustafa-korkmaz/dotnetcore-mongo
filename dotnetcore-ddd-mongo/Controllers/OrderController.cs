@@ -2,7 +2,7 @@ using Application.Dto.Order;
 using Application.Services.Order;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Middleware.Validations;
+using Presentation.Middlewares.Validations;
 using Presentation.ViewModels;
 using Presentation.ViewModels.Order;
 using System.Net;

@@ -21,7 +21,7 @@ namespace Application
 
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>()
-              .ConvertUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice));
+              .ConvertUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice, src.StockQuantity));
 
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<Order, OrderDto>();

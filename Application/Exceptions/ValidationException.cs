@@ -1,6 +1,6 @@
-﻿namespace Application.Exception
+﻿namespace Application.Exceptions
 {
-    public class ValidationException : System.Exception
+    public class ValidationException : Exception
     {
         public ValidationException(string message) : base(message)
         {

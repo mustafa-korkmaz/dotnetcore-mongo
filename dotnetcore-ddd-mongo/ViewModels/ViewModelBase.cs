@@ -1,4 +1,7 @@
-﻿namespace Presentation.ViewModels
+﻿using Presentation.Middlewares.Validations;
+using System.ComponentModel.DataAnnotations;
+
+namespace Presentation.ViewModels
 {
     public class ViewModelBase
     {
@@ -11,6 +14,7 @@
     {
         public int Offset { get; set; }
 
+        [Range(1, 1000)]
         public int Limit { get; set; }
     }
 
@@ -34,5 +38,11 @@
         /// Total count of items stored in repository
         /// </summary>
         public long TotalCount { get; set; }
+    }
+
+    public class ObjectIdViewModel
+    {
+        [ObjectIdValidation]
+        public string? id { get; set; }
     }
 }

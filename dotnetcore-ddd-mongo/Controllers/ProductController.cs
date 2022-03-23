@@ -2,7 +2,7 @@ using Application.Dto.Product;
 using Application.Services.Product;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Presentation.Middleware.Validations;
+using Presentation.Middlewares.Validations;
 using Presentation.ViewModels;
 using Presentation.ViewModels.Product;
 using System.Net;
@@ -34,18 +34,18 @@ namespace Presentation.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductViewModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromRoute] string id)
+        public async Task<IActionResult> Get([FromRoute] ObjectIdViewModel model)
         {
-            var o = await _productService.GetByIdAsync(id);
+            var o = await _productService.GetByIdAsync(model.id);
 
             if (o == null)
             {
                 return NotFound();
             }
 
-            var model = _mapper.Map<ProductViewModel>(o);
+            var viewMmodel = _mapper.Map<ProductViewModel>(o);
 
-            return Ok(model);
+            return Ok(viewMmodel);
         }
 
         [ModelStateValidation]

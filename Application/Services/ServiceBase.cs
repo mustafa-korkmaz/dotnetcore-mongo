@@ -4,7 +4,7 @@ using Infrastructure.UnitOfWork;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Application.Constants;
-using Application.Exception;
+using Application.Exceptions;
 
 namespace Application.Services
 {

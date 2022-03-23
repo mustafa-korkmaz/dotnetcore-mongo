@@ -1,5 +1,5 @@
 ﻿using Application.Constants;
-using Application.Exception;
+using Application.Exceptions;
 using System.Net;
 
 namespace Presentation.Middleware

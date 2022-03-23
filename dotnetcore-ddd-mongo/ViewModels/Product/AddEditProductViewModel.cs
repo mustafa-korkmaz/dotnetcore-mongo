@@ -12,5 +12,8 @@ namespace Presentation.ViewModels.Product
 
         [Required]
         public decimal UnitPrice { get; set; }
+
+        [Required]
+        public decimal StockQuantity { get; set; }
     }
 }

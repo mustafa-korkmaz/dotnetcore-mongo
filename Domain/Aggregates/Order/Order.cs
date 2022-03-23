@@ -7,9 +7,19 @@ namespace Domain.Aggregates.Order
 
         public decimal Price => Items.Sum(x => x.GetPrice());
 
-        //todo Items data cannot be retrieved
-        private List<OrderItem> _items;
-        public IReadOnlyCollection<OrderItem> Items { get; private set; }
+        private ICollection<OrderItem> _items;
+        public IReadOnlyCollection<OrderItem> Items
+        {
+            get
+            {
+                return _items.ToList();
+            }
+            private set
+            {
+                // mongo db serialization will use this part
+                _items = value.ToList();
+            }
+        }
 
         public Order(string id, string username) : base(id)
         {
