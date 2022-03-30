@@ -58,7 +58,7 @@ services:
         "false"
       ]
     volumes:
-      - mongo2_db:/data/db # Note the data2, it must be different to the original set.
+      - mongo2_db:/data/db
       - mongo2_config_db:/data/configdb
   mongo3:
     hostname: mongo3
