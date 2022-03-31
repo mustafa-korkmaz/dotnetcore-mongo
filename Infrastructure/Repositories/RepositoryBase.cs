@@ -8,9 +8,12 @@ namespace Infrastructure.Repositories
     public class RepositoryBase<TDocument> : IRepository<TDocument> where TDocument : IDocument
     {
         private protected readonly IMongoCollection<TDocument> Collection;
+        private readonly IMongoContext _mongoContext;
+
         public RepositoryBase(IMongoContext context)
         {
-            Collection = context.GetCollection<TDocument>();
+            _mongoContext = context;
+            Collection = _mongoContext.GetCollection<TDocument>();
         }
 
         public async Task<ListDocumentResponse<TDocument>> ListAsync(int offset, int limit)
@@ -35,18 +38,33 @@ namespace Infrastructure.Repositories
 
         public Task InsertOneAsync(TDocument document)
         {
-            return Collection.InsertOneAsync(document);
+            var session = GetSession();
+
+            if (session == null)
+            {
+                return Collection.InsertOneAsync(document);
+            }
+
+            return Collection.InsertOneAsync(session, document);
         }
 
         public Task InsertManyAsync(ICollection<TDocument> documents)
         {
-            return Collection.InsertManyAsync(documents);
+            return Collection.InsertManyAsync(GetSession(), documents);
         }
 
         public async Task ReplaceOneAsync(TDocument document)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, document.Id);
-            await Collection.FindOneAndReplaceAsync(filter, document);
+
+            var session = GetSession();
+
+            if (session == null)
+            {
+                await Collection.FindOneAndReplaceAsync(filter, document);
+            }
+
+            await Collection.FindOneAndReplaceAsync(session, filter, document);
         }
 
         public Task<TDocument> GetByIdAsync(string id)
@@ -59,6 +77,11 @@ namespace Infrastructure.Repositories
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
             await Collection.FindOneAndDeleteAsync(filter);
+        }
+
+        private IClientSessionHandle? GetSession()
+        {
+            return _mongoContext.GetSession();
         }
     }
 }

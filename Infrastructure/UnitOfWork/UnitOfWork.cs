@@ -43,7 +43,7 @@ namespace Infrastructure.UnitOfWork
             return (TRepository)_repositories[type];
         }
 
-        public Task CreateTransactionAsync(Action transactionBody)
+        public Task CreateTransactionAsync(Func<Task> transactionBody)
         {
            return _context.SaveTransactionalChangesAsync(transactionBody);
         }

@@ -9,7 +9,7 @@ namespace Infrastructure.Persistance.MongoDb
         private readonly MongoDbConfig _dbConfig;
 
         private readonly IMongoDatabase _database;
-        private IClientSessionHandle _session;
+        private IClientSessionHandle? _session;
 
         private readonly IMongoClient _mongoClient;
 
@@ -25,7 +25,7 @@ namespace Infrastructure.Persistance.MongoDb
             return _database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public async Task SaveTransactionalChangesAsync(Action transactionBody)
+        public async Task SaveTransactionalChangesAsync(Func<Task> transactionBody)
         {
             using (_session = await _mongoClient.StartSessionAsync())
             {
@@ -33,7 +33,7 @@ namespace Infrastructure.Persistance.MongoDb
                 {
                     _session.StartTransaction();
 
-                    transactionBody.Invoke();
+                    await transactionBody();
 
                     await _session.CommitTransactionAsync();
                 }
@@ -60,11 +60,15 @@ namespace Infrastructure.Persistance.MongoDb
             return pluralCollectionName;
         }
 
+        public IClientSessionHandle? GetSession()
+        {
+            return _session;
+        }
+
         public void Dispose()
         {
             _session?.Dispose();
             GC.SuppressFinalize(this);
         }
-
     }
 }

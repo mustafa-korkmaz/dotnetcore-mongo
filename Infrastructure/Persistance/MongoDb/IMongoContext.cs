@@ -10,7 +10,9 @@ namespace Infrastructure.Persistance.MongoDb
         /// </summary>
         /// <param name="transactionBody"></param>
         /// <returns></returns>
-        Task SaveTransactionalChangesAsync(Action transactionBody);
+        Task SaveTransactionalChangesAsync(Func<Task> transactionBody);
         IMongoCollection<TDocument> GetCollection<TDocument>();
+
+        IClientSessionHandle? GetSession();
     }
 }
