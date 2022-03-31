@@ -30,8 +30,8 @@ services:
         "--journal",
         "--dbpath",
         "/data/db",
-        "--enableMajorityReadConcern",
-        "false"
+        "--port",
+        "27017"
       ]
     volumes:
       - mongo1_db:/data/db
@@ -41,9 +41,9 @@ services:
     container_name: localmongo2
     image: mongo
     expose:
-      - 27017
+      - 27018
     ports:
-      - 27018:27017
+      - 27018:27018
     restart: always
     entrypoint:
       [
@@ -54,8 +54,8 @@ services:
         "--journal",
         "--dbpath",
         "/data/db",
-        "--enableMajorityReadConcern",
-        "false"
+        "--port",
+        "27018"
       ]
     volumes:
       - mongo2_db:/data/db
@@ -65,9 +65,9 @@ services:
     container_name: localmongo3
     image: mongo
     expose:
-      - 27017
+      - 27019
     ports:
-      - 27019:27017
+      - 27019:27019
     restart: always
     entrypoint:
       [
@@ -78,8 +78,8 @@ services:
         "--journal",
         "--dbpath",
         "/data/db",
-        "--enableMajorityReadConcern",
-        "false"
+        "--port",
+        "27019"
       ]
     volumes:
       - mongo3_db:/data/db

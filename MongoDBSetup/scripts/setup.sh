@@ -33,12 +33,12 @@ var cfg = {
         },
         {
             "_id": 1,
-            "host": "${MONGODB2}:27017",
+            "host": "${MONGODB2}:27018",
             "priority": 0
         },
         {
             "_id": 2,
-            "host": "${MONGODB3}:27017",
+            "host": "${MONGODB3}:27019",
             "priority": 0
         }
     ],settings: {chainingAllowed: true}
