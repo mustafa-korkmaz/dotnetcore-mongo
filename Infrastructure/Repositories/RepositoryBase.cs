@@ -50,7 +50,14 @@ namespace Infrastructure.Repositories
 
         public Task InsertManyAsync(ICollection<TDocument> documents)
         {
-            return Collection.InsertManyAsync(GetSession(), documents);
+            var session = GetSession();
+
+            if (session == null)
+            {
+                return Collection.InsertManyAsync(documents);
+            }
+
+            return Collection.InsertManyAsync(session, documents);
         }
 
         public async Task ReplaceOneAsync(TDocument document)
@@ -62,6 +69,7 @@ namespace Infrastructure.Repositories
             if (session == null)
             {
                 await Collection.FindOneAndReplaceAsync(filter, document);
+                return;
             }
 
             await Collection.FindOneAndReplaceAsync(session, filter, document);
@@ -76,7 +84,16 @@ namespace Infrastructure.Repositories
         public async Task DeleteByIdAsync(string id)
         {
             var filter = Builders<TDocument>.Filter.Eq(doc => doc.Id, id);
-            await Collection.FindOneAndDeleteAsync(filter);
+
+            var session = GetSession();
+
+            if (session == null)
+            {
+                await Collection.FindOneAndDeleteAsync(filter);
+                return;
+            }
+
+            await Collection.FindOneAndDeleteAsync(session, filter);
         }
 
         private IClientSessionHandle? GetSession()

@@ -13,6 +13,10 @@ namespace Infrastructure.Persistance.MongoDb
         Task SaveTransactionalChangesAsync(Func<Task> transactionBody);
         IMongoCollection<TDocument> GetCollection<TDocument>();
 
+        /// <summary>
+        /// will be used if a transactional session is created
+        /// </summary>
+        /// <returns></returns>
         IClientSessionHandle? GetSession();
     }
 }

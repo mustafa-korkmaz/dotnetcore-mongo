@@ -50,14 +50,14 @@ namespace Application.Services.Order
                     }
 
                     await _productRepository.ReplaceOneAsync(item);
-
-                    //set new members
-                    dto.Id = document.Id;
-                    dto.CreatedAt = document.CreatedAt;
-
-                    await Repository.InsertOneAsync(document);
                 }
+
+                await Repository.InsertOneAsync(document);
             });
+
+            //set new members to return back
+            dto.Id = document.Id;
+            dto.CreatedAt = document.CreatedAt;
         }
     }
 }

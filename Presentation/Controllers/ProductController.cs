@@ -73,7 +73,7 @@ namespace Presentation.Controllers
 
             await _productService.UpdateAsync(productDto);
 
-            return Ok();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
@@ -82,7 +82,7 @@ namespace Presentation.Controllers
         {
             await _productService.DeleteByIdAsync(id);
 
-            return Ok();
+            return NoContent();
         }
 
         private async Task<ListViewModelResponse<ProductViewModel>> ListAsync(ListViewModelRequest model)
