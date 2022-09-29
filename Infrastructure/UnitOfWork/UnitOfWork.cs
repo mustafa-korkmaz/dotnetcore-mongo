@@ -1,6 +1,6 @@
 ﻿
 using Domain.Aggregates;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 using System.Reflection;
 
 namespace Infrastructure.UnitOfWork

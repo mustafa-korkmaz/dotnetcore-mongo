@@ -1,8 +1,8 @@
-﻿using Application.Constants;
+﻿using System.Net;
+using Application.Constants;
 using Application.Exceptions;
-using System.Net;
 
-namespace Presentation.Middleware
+namespace Presentation.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
@@ -31,10 +31,10 @@ namespace Presentation.Middleware
 
                 switch (exception)
                 {
-                    case ValidationException _:
+                    case ValidationException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
-                    case RecordNotFoundException _:
+                    case RecordNotFoundException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         message = ErrorMessages.RecordNotFound;
                         break;

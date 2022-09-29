@@ -1,5 +1,5 @@
 ﻿using Domain.Aggregates.Product;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 using MongoDB.Driver;
 
 namespace Infrastructure.Repositories

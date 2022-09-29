@@ -1,5 +1,5 @@
 ﻿using Domain.Aggregates.Order;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 
 namespace Infrastructure.Repositories
 {

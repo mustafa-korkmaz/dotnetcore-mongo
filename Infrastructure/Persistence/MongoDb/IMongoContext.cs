@@ -1,7 +1,7 @@
 ﻿
 using MongoDB.Driver;
 
-namespace Infrastructure.Persistance.MongoDb
+namespace Infrastructure.Persistence.MongoDb
 {
     public interface IMongoContext : IDisposable
     {

@@ -1,7 +1,7 @@
 ﻿using Domain.Aggregates.Product;
 using MongoDB.Bson.Serialization;
 
-namespace Infrastructure.Persistance.MongoDb
+namespace Infrastructure.Persistence.MongoDb
 {
     public class ProductMapping
     {

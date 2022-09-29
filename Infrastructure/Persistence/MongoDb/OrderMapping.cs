@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 
-namespace Infrastructure.Persistance.MongoDb
+namespace Infrastructure.Persistence.MongoDb
 {
     public class OrderMapping
     {

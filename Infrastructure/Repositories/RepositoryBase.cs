@@ -1,5 +1,5 @@
 ﻿using Domain.Aggregates;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

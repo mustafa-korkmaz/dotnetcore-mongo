@@ -1,8 +1,8 @@
 using Presentation;
 using Infrastructure.UnitOfWork;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 using MongoDB.Driver;
-using Presentation.Middleware;
+using Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

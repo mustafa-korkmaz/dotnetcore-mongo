@@ -2,22 +2,20 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Infrastructure.Persistance.MongoDb
+namespace Infrastructure.Persistence.MongoDb
 {
     public class MongoContext : IMongoContext
     {
-        private readonly MongoDbConfig _dbConfig;
-
         private readonly IMongoDatabase _database;
         private IClientSessionHandle? _session;
 
         private readonly IMongoClient _mongoClient;
 
-        public MongoContext(IMongoClient mongoClient, IOptions<MongoDbConfig> dbConfig)
+        public MongoContext(IMongoClient mongoClient, IOptions<MongoDbConfig> dbConfigOptions)
         {
-            _dbConfig = dbConfig.Value;
+            var dbConfig = dbConfigOptions.Value;
             _mongoClient = mongoClient;
-            _database = _mongoClient.GetDatabase(_dbConfig.DatabaseName);
+            _database = _mongoClient.GetDatabase(dbConfig.DatabaseName);
         }
 
         public IMongoCollection<TDocument> GetCollection<TDocument>()
@@ -45,7 +43,7 @@ namespace Infrastructure.Persistance.MongoDb
             }
         }
 
-        private protected string GetCollectionName(Type documentType)
+        private string GetCollectionName(Type documentType)
         {
             var shortType = documentType.Name;
 

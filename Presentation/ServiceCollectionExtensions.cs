@@ -1,7 +1,7 @@
 ﻿using Application.Services.Order;
 using Application.Services.Product;
 using Infrastructure.Configuration;
-using Infrastructure.Persistance.MongoDb;
+using Infrastructure.Persistence.MongoDb;
 
 namespace Presentation
 {
