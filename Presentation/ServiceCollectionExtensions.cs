@@ -1,5 +1,6 @@
 ﻿using Application.Services.Order;
 using Application.Services.Product;
+using Application.Services.User;
 using Infrastructure.Configuration;
 using Infrastructure.Persistence.MongoDb;
 
@@ -30,6 +31,8 @@ namespace Presentation
         {
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IUserService, UserService>();
+
         }
     }
 }

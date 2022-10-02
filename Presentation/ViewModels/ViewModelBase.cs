@@ -43,6 +43,7 @@ namespace Presentation.ViewModels
     public class ObjectIdViewModel
     {
         [ObjectIdValidation]
+        [Display(Name = "ID")]
         public string? id { get; set; }
     }
 }

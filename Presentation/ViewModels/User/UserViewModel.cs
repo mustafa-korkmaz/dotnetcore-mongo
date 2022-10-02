@@ -1,6 +1,6 @@
 ﻿namespace Presentation.ViewModels.User
 {
-    public class UserViewModel
+    public class UserViewModel : ViewModelBase
     {
         public string Username { get; set; }
 
@@ -11,9 +11,5 @@
         public string? PhoneNumber { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
-
-        public IReadOnlyCollection<string> Claims { get; set; } = Array.Empty<string>();
-
-        public DateTime CreatedAt { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Presentation.Middlewares.Validations
 
         public override string FormatErrorMessage(string name)
         {
-            return $"{name} field does not have an applicable ID";
+            return $"{name} field does not have an applicable value";
         }
     }
 }

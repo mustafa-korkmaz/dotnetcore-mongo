@@ -12,6 +12,6 @@
 
         public bool IsEmailConfirmed { get; set; }
 
-        public ICollection<string> Claims { get; set; }
+        public ICollection<string>? Claims { get; set; }
     }
 }

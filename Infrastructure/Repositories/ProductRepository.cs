@@ -4,7 +4,7 @@ using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    public class ProductRepository : RepositoryBase<Product>, IProductRepository
+    internal class ProductRepository : RepositoryBase<Product>, IProductRepository
     {
         public ProductRepository(IMongoContext context) : base(context)
         {

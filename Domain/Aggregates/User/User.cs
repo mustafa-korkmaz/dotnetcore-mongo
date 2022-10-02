@@ -15,21 +15,25 @@ namespace Domain.Aggregates.User
 
         public bool IsEmailConfirmed { get; private set; }
 
-        private ICollection<string> _claims;
-        public IReadOnlyCollection<string> Claims
+        private ICollection<string>? _claims;
+        public IReadOnlyCollection<string>? Claims
         {
-            get => _claims.ToList();
+            get => _claims?.ToList();
             private set
             {
                 // mongo db serialization will use this part
-                _claims = value.ToList();
+                if (value == null)
+                {
+                    _claims = new List<string>();
+                }
+                else
+                    _claims = value.ToList();
             }
         }
 
         public User(string id, string username, string? nameSurname, string email, string? phoneNumber,
             string passwordHash, bool isEmailConfirmed) : base(id)
         {
-            _claims = new List<string>();
             Username = username;
             NameSurname = nameSurname;
             Email = email;
@@ -40,6 +44,11 @@ namespace Domain.Aggregates.User
 
         public void AddClaim(string claim)
         {
+            if (_claims == null)
+            {
+                _claims = new List<string>();
+            }
+
             _claims.Add(claim);
         }
 
@@ -52,6 +61,11 @@ namespace Domain.Aggregates.User
         {
             NameSurname = nameSurname;
             PhoneNumber = phoneNumber;
+        }
+
+        public void SetPasswordHash(string passwordHash)
+        {
+            PasswordHash = passwordHash;
         }
     }
 }

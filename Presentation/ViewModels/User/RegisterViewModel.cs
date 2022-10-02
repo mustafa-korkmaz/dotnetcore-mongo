@@ -5,13 +5,13 @@ namespace Presentation.ViewModels.User
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
-        [StringLength(100, ErrorMessage = ValidationErrorCode.MaxLength)]
+        [StringLength(50, ErrorMessage = ValidationErrorCode.MaxLength)]
         [RegularExpression(Regexes.Username, ErrorMessage = ValidationErrorCode.UsernameNotValid)]
         [Display(Name = "USERNAME")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [StringLength(100, ErrorMessage = ValidationErrorCode.BetweenLength, MinimumLength = 4)]
+        [Display(Name = "NAME_SURNAME")]
         public string? NameSurname { get; set; }
 
         [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
@@ -23,5 +23,10 @@ namespace Presentation.ViewModels.User
         [RegularExpression(Regexes.PhoneNumber, ErrorMessage = ValidationErrorCode.PhoneNumberNotValid)]
         [Display(Name = "PHONE_NUMBER")]
         public string? PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = ValidationErrorCode.RequiredField)]
+        [StringLength(100, ErrorMessage = ValidationErrorCode.BetweenLength, MinimumLength = 6)]
+        [Display(Name = "PASSWORD")]
+        public string? Password { get; set; }
     }
 }

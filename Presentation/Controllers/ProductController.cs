@@ -32,6 +32,7 @@ namespace Presentation.Controllers
             return Ok(resp);
         }
 
+        [ModelStateValidation]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute] ObjectIdViewModel model)
