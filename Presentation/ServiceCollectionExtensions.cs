@@ -1,8 +1,12 @@
-﻿using Application.Services.Order;
+﻿using Application.Constants;
+using Application.Services.Order;
 using Application.Services.Product;
 using Application.Services.User;
 using Infrastructure.Configuration;
 using Infrastructure.Persistence.MongoDb;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Presentation
 {
@@ -33,6 +37,42 @@ namespace Presentation
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IUserService, UserService>();
 
+        }
+
+        public static void ConfigureAuthorization(this IServiceCollection services)
+        {
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy(AppConstants.DefaultAuthorizationPolicy, new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build());
+
+                auth.AddPolicy(AppConstants.AdminAuthorizationPolicy, new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireClaim("claims", "admin")
+                    .RequireAuthenticatedUser().Build());
+            });
+        }
+
+        public static void ConfigureAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        IssuerSigningKey = JwtTokenConstants.IssuerSigningKey,
+                        ValidAudience = JwtTokenConstants.Audience,
+                        ValidIssuer = JwtTokenConstants.Issuer,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(0)
+                    };
+                });
         }
     }
 }

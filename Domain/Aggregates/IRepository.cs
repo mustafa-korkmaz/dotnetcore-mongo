@@ -4,7 +4,7 @@ namespace Domain.Aggregates
 {
     public interface IRepository<TDocument> where TDocument : IDocument
     {
-        Task<TDocument> GetByIdAsync(string id);
+        Task<TDocument?> GetByIdAsync(string id);
 
         /// <summary>
         /// Base listing interface without any filters

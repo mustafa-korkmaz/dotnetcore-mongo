@@ -50,6 +50,7 @@ namespace Application.Services.User
             userDto.Username = user.Username;
             userDto.Email = user.Email;
             userDto.NameSurname = user.NameSurname;
+            userDto.PhoneNumber = user.PhoneNumber;
             userDto.CreatedAt = user.CreatedAt;
             userDto.Claims = user.Claims.ToList();
 
@@ -81,6 +82,34 @@ namespace Application.Services.User
             await Repository.InsertOneAsync(user);
 
             userDto.Id = user.Id;
+        }
+
+        public async Task ApproveAsync(string id)
+        {
+            var user = await Repository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new ValidationException(ErrorMessages.UserNotFound);
+            }
+
+            user.SetIsEmailConfirmed(true);
+
+            await Repository.ReplaceOneAsync(user);
+        }
+
+        public async Task RejectAsync(string id)
+        {
+            var user = await Repository.GetByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new ValidationException(ErrorMessages.UserNotFound);
+            }
+
+            user.SetIsEmailConfirmed(false);
+
+            await Repository.ReplaceOneAsync(user);
         }
 
         private string HashPassword(string password)

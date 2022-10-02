@@ -52,9 +52,9 @@ namespace Domain.Aggregates.User
             _claims.Add(claim);
         }
 
-        public void ConfirmEmail()
+        public void SetIsEmailConfirmed(bool value)
         {
-            IsEmailConfirmed = true;
+            IsEmailConfirmed = value;
         }
 
         public void SetProfile(string nameSurname, string phoneNumber)

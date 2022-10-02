@@ -4,13 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Constants
 {
-    internal class JwtTokenConstants
+    public class JwtTokenConstants
     {
-        private static SecurityKey IssuerSigningKey => new SymmetricSecurityKey(Encoding.ASCII.GetBytes(GetCryptoSecurityKey()));
+        public static SecurityKey IssuerSigningKey => new SymmetricSecurityKey(Encoding.ASCII.GetBytes(GetCryptoSecurityKey()));
 
         public static SigningCredentials SigningCredentials => new SigningCredentials(IssuerSigningKey, SecurityAlgorithms.HmacSha256);
 
-        public static TimeSpan TokenExpirationTime => TimeSpan.FromDays(1);
+        public static TimeSpan TokenExpirationTime => TimeSpan.FromHours(12);
 
         public static string Issuer => "Issuer";
 

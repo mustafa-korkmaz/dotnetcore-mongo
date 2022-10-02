@@ -4,14 +4,13 @@ using Presentation.Middlewares.Validations;
 using System.Net;
 using Application.Dto.User;
 using Application.Services.User;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Presentation.ViewModels.User;
 
 namespace Presentation.Controllers
 {
     [ApiController]
-    [Route("account")]
+    [Route("")]
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -26,6 +25,7 @@ namespace Presentation.Controllers
         [ModelStateValidation]
         [HttpPost("register")]
         [ProducesResponseType(typeof(UserViewModel), (int)HttpStatusCode.Created)]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
             var userDto = _mapper.Map<UserDto>(model);

@@ -11,7 +11,11 @@ namespace Application.Services.User
         /// <param name="password"></param>
         /// <returns></returns>
         Task<string> GetTokenAsync(UserDto userDto, string password);
-        
+
         Task RegisterAsync(UserDto userDto, string password);
+
+        Task ApproveAsync(string id);
+
+        Task RejectAsync(string id);
     }
 }
