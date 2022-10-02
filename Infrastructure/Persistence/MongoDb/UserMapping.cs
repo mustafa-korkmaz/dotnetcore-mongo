@@ -11,11 +11,11 @@ namespace Infrastructure.Persistence.MongoDb
             {
                 map.AutoMap();
                 map.MapProperty(x => x.Claims);
-                map.SetIgnoreExtraElements(true);
                 map.MapMember(x => x.Username).SetIsRequired(true);
                 map.MapMember(x => x.Email).SetIsRequired(true);
                 map.MapMember(x => x.PasswordHash).SetIsRequired(true);
                 map.MapMember(x => x.IsEmailConfirmed).SetIsRequired(true);
+                map.SetIgnoreExtraElements(true);
             });
         }
     }
