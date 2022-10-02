@@ -10,10 +10,7 @@ namespace Domain.Aggregates.Order
         private ICollection<OrderItem> _items;
         public IReadOnlyCollection<OrderItem> Items
         {
-            get
-            {
-                return _items.ToList();
-            }
+            get => _items.ToList();
             private set
             {
                 // mongo db serialization will use this part

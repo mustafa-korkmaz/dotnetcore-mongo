@@ -1,4 +1,12 @@
 services:
+  #mongo-api:
+  #  container_name: mongo_api
+  #  image: ddd-api
+  #  restart: unless-stopped
+  #  expose:
+  #    - 80
+  #  depends_on:
+  #    - mongo-setup     
   mongo-setup:
     container_name: mongo-setup
     image: mongo

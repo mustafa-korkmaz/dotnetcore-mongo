@@ -1,5 +1,6 @@
 ﻿using Application.Services.Order;
 using Application.Services.Product;
+using Application.Services.User;
 using Infrastructure.Configuration;
 using Infrastructure.Persistence.MongoDb;
 
@@ -7,16 +8,14 @@ namespace Presentation
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddConfigSections(
+        public static void AddConfigSections(
            this IServiceCollection services, IConfiguration config)
         {
             services.Configure<MongoDbConfig>(
                 config.GetSection("MongoDbConfig"));
-
-            return services;
         }
 
-        public static IServiceCollection AddMappings(this IServiceCollection services)
+        public static void AddMappings(this IServiceCollection services)
         {
             //ViewModels to DTOs mappings
             services.AddAutoMapper(typeof(MappingProfile));
@@ -26,16 +25,14 @@ namespace Presentation
 
             //Domain entities to mongoDb collections mappings
             MongoDbPersistence.Configure();
-
-            return services;
         }
 
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IUserService, UserService>();
 
-            return services;
         }
     }
 }
