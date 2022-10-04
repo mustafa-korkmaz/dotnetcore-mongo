@@ -27,9 +27,9 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ListViewModelResponse<ProductViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Search([FromQuery] ListViewModelRequest model)
         {
-            var resp = await ListAsync(model);
+            var resp = await _productService.ListAsync(model.Offset, model.Limit);
 
-            return Ok(resp);
+            return Ok(_mapper.Map<ListViewModelResponse<ProductViewModel>>(resp));
         }
 
         [ModelStateValidation]
@@ -37,16 +37,16 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ProductViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute] ObjectIdViewModel model)
         {
-            var o = await _productService.GetByIdAsync(model.id);
+            var o = await _productService.GetByIdAsync(model.id!);
 
             if (o == null)
             {
                 return NotFound();
             }
 
-            var viewMmodel = _mapper.Map<ProductViewModel>(o);
+            var viewModel = _mapper.Map<ProductViewModel>(o);
 
-            return Ok(viewMmodel);
+            return Ok(viewModel);
         }
 
         [ModelStateValidation]
@@ -84,13 +84,6 @@ namespace Presentation.Controllers
             await _productService.DeleteByIdAsync(id);
 
             return NoContent();
-        }
-
-        private async Task<ListViewModelResponse<ProductViewModel>> ListAsync(ListViewModelRequest model)
-        {
-            var resp = await _productService.ListAsync(model.Offset, model.Limit);
-
-            return _mapper.Map<ListViewModelResponse<ProductViewModel>>(resp);
         }
     }
 }

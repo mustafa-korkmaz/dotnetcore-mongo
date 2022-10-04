@@ -3,9 +3,11 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using Application.Constants;
+using Application.Dto;
 using Application.Dto.User;
 using Application.Exceptions;
 using AutoMapper;
+using Domain.Aggregates;
 using Domain.Aggregates.User;
 using Infrastructure.Services;
 using Infrastructure.UnitOfWork;
@@ -52,9 +54,16 @@ namespace Application.Services.User
             userDto.NameSurname = user.NameSurname;
             userDto.PhoneNumber = user.PhoneNumber;
             userDto.CreatedAt = user.CreatedAt;
-            userDto.Claims = user.Claims.ToList();
+            userDto.Claims = user.Claims?.ToList();
 
             return GenerateToken(userDto);
+        }
+
+        public async Task<ListDtoResponse<UserDto>> SearchAsync(int offset, int limit, string? searchText)
+        {
+            var resp = await Repository.SearchAsync(offset, limit, searchText);
+
+            return Mapper.Map<ListDocumentResponse<Domain.Aggregates.User.User>, ListDtoResponse<UserDto>>(resp);
         }
 
         public async Task RegisterAsync(UserDto userDto, string password)
@@ -164,9 +173,12 @@ namespace Application.Services.User
 
             claims.Add(emailClaim);
 
-            foreach (var userClaim in user.Claims)
+            if (user.Claims != null)
             {
-                claims.Add(new Claim("claims", userClaim));
+                foreach (var userClaim in user.Claims)
+                {
+                    claims.Add(new Claim("claims", userClaim));
+                }
             }
 
             ClaimsIdentity identity = new ClaimsIdentity(new GenericIdentity(user.Email, "Token"), claims);

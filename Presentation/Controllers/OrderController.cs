@@ -27,9 +27,9 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ListViewModelResponse<OrderViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Search([FromQuery] ListViewModelRequest model)
         {
-            var resp = await ListAsync(model);
+            var resp = await _orderService.ListAsync(model.Offset, model.Limit);
 
-            return Ok(resp);
+            return Ok(_mapper.Map<ListViewModelResponse<OrderViewModel>>(resp));
         }
 
         [HttpGet("{id}")]
@@ -83,13 +83,6 @@ namespace Presentation.Controllers
             await _orderService.DeleteByIdAsync(id);
 
             return NoContent();
-        }
-
-        private async Task<ListViewModelResponse<OrderViewModel>> ListAsync(ListViewModelRequest model)
-        {
-            var resp = await _orderService.ListAsync(model.Offset, model.Limit);
-
-            return _mapper.Map<ListViewModelResponse<OrderViewModel>>(resp);
         }
     }
 }

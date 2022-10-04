@@ -18,15 +18,6 @@ namespace Presentation.ViewModels
         public int Limit { get; set; }
     }
 
-    /// <summary>
-    /// for specific searches which requires extra filters
-    /// </summary>
-    /// <typeparam name="TSearchCriteria"></typeparam>
-    public class ListViewModelRequest<TSearchCriteria> : ListViewModelRequest
-    {
-        public TSearchCriteria SearchCriteria { get; set; }
-    }
-
     public class ListViewModelResponse<TViewModel> where TViewModel : class
     {
         /// <summary>

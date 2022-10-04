@@ -31,17 +31,29 @@ namespace Presentation.Controllers
             [FromBody] StatusViewModel statusModel)
         {
             var status = statusModel.Value!;
+            var userId = idModel.id!;
 
             if ((bool)status)
             {
-                await _userService.ApproveAsync(idModel.id!);
+                await _userService.ApproveAsync(userId);
             }
             else
             {
-                await _userService.RejectAsync(idModel.id!);
+                await _userService.RejectAsync(userId);
             }
 
             return Ok();
         }
+
+        [ModelStateValidation]
+        [HttpGet]
+        [ProducesResponseType(typeof(ListViewModelResponse<UserViewModel>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Search([FromQuery] SearchUserViewModel model)
+        {
+            var resp = await _userService.SearchAsync(model.Offset, model.Limit, model.SearchText);
+
+            return Ok(_mapper.Map<ListViewModelResponse<UserViewModel>>(resp));
+        }
+
     }
 }
