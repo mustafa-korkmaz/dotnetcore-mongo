@@ -23,26 +23,6 @@ namespace Infrastructure.Persistence.MongoDb
             return _database.GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
         }
 
-        public async Task SaveTransactionalChangesAsync(Func<Task> transactionBody)
-        {
-            using (_session = await _mongoClient.StartSessionAsync())
-            {
-                try
-                {
-                    _session.StartTransaction();
-
-                    await transactionBody();
-
-                    await _session.CommitTransactionAsync();
-                }
-                catch (Exception)
-                {
-                    await _session.AbortTransactionAsync();
-                    throw;
-                }
-            }
-        }
-
         private string GetCollectionName(Type documentType)
         {
             var shortType = documentType.Name;
@@ -56,6 +36,13 @@ namespace Infrastructure.Persistence.MongoDb
             var pluralCollectionName = array[array.Length - 1] == 's' ? singularCollectionName + "es" : singularCollectionName + "s";
 
             return pluralCollectionName;
+        }
+
+        public async Task<IClientSessionHandle> StartSessionAsync()
+        {
+            _session = await _mongoClient.StartSessionAsync();
+
+            return _session;
         }
 
         public IClientSessionHandle? GetSession()

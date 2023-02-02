@@ -15,7 +15,7 @@ namespace Infrastructure.UnitOfWork
             _context = context;
             _repositories = new Dictionary<string, object>();
         }
-    
+
         public TRepository GetRepository<TRepository>()
         {
             var type = typeof(TRepository).Name;
@@ -40,9 +40,24 @@ namespace Infrastructure.UnitOfWork
             return (TRepository)_repositories[type];
         }
 
-        public Task UseTransactionAsync(Func<Task> transactionBody)
+        public async Task UseTransactionAsync(Func<Task> transactionBody)
         {
-           return _context.SaveTransactionalChangesAsync(transactionBody);
+            using (var session = await _context.StartSessionAsync())
+            {
+                try
+                {
+                    session.StartTransaction();
+
+                    await transactionBody();
+
+                    await session.CommitTransactionAsync();
+                }
+                catch (Exception)
+                {
+                    await session.AbortTransactionAsync();
+                    throw;
+                }
+            }
         }
 
         public void Dispose()
