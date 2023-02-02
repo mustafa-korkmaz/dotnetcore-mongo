@@ -17,7 +17,7 @@ namespace Application.Services.Order
         public OrderService(IUnitOfWork uow, ILogger<OrderService> logger, IMapper mapper)
         : base(uow, logger, mapper)
         {
-            _productRepository = Uow.GetRepository<IProductRepository, Domain.Aggregates.Product.Product>();
+            _productRepository = Uow.GetRepository<IProductRepository>();
         }
 
         public override async Task AddAsync(OrderDto dto)
@@ -35,7 +35,7 @@ namespace Application.Services.Order
 
             //requires transactional operation
 
-            await Uow.CreateTransactionAsync(async () =>
+            await Uow.UseTransactionAsync(async () =>
             {
                 foreach (var item in products)
                 {

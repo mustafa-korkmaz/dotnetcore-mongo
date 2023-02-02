@@ -1,5 +1,4 @@
 ﻿
-using Domain.Aggregates;
 using Infrastructure.Persistence.MongoDb;
 using System.Reflection;
 
@@ -9,7 +8,7 @@ namespace Infrastructure.UnitOfWork
     {
         private readonly IMongoContext _context;
 
-        private Dictionary<string, object> _repositories;
+        private readonly Dictionary<string, object> _repositories;
 
         public UnitOfWork(IMongoContext context)
         {
@@ -17,11 +16,9 @@ namespace Infrastructure.UnitOfWork
             _repositories = new Dictionary<string, object>();
         }
     
-        public TRepository GetRepository<TRepository, TDocument>()
-            where TRepository : IRepository<TDocument>
-            where TDocument : IDocument
+        public TRepository GetRepository<TRepository>()
         {
-            var type = typeof(TDocument).Name;
+            var type = typeof(TRepository).Name;
 
             if (!_repositories.ContainsKey(type))
             {
@@ -35,7 +32,7 @@ namespace Infrastructure.UnitOfWork
 
                 if (repositoryInstance == null)
                 {
-                    throw new ArgumentNullException("repositoryInstance");
+                    throw new ArgumentNullException(nameof(repositoryInstance));
                 }
 
                 _repositories.Add(type, repositoryInstance);
@@ -43,7 +40,7 @@ namespace Infrastructure.UnitOfWork
             return (TRepository)_repositories[type];
         }
 
-        public Task CreateTransactionAsync(Func<Task> transactionBody)
+        public Task UseTransactionAsync(Func<Task> transactionBody)
         {
            return _context.SaveTransactionalChangesAsync(transactionBody);
         }

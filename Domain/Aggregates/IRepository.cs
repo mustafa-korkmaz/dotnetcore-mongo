@@ -9,10 +9,9 @@ namespace Domain.Aggregates
         /// <summary>
         /// Base listing interface without any filters
         /// </summary>
-        /// <param name="offset">desired start index for items</param>
-        /// <param name="limit">desired length of list items</param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        Task<ListDocumentResponse<TDocument>> ListAsync(int offset, int limit);
+        Task<ListDocumentResponse<TDocument>> ListAsync(ListDocumentRequest request);
         Task InsertOneAsync(TDocument document);
         Task InsertManyAsync(ICollection<TDocument> documents);
         Task ReplaceOneAsync(TDocument document);

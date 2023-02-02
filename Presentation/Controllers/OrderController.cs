@@ -6,6 +6,7 @@ using Presentation.Middlewares.Validations;
 using Presentation.ViewModels;
 using Presentation.ViewModels.Order;
 using System.Net;
+using Application.Dto;
 
 namespace Presentation.Controllers
 {
@@ -27,7 +28,9 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ListViewModelResponse<OrderViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Search([FromQuery] ListViewModelRequest model)
         {
-            var resp = await _orderService.ListAsync(model.Offset, model.Limit);
+            var request = _mapper.Map<ListDtoRequest>(model);
+
+            var resp = await _orderService.ListAsync(request);
 
             return Ok(_mapper.Map<ListViewModelResponse<OrderViewModel>>(resp));
         }

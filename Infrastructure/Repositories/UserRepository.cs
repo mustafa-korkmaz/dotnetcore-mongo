@@ -24,7 +24,6 @@ namespace Infrastructure.Repositories
                 filter = Builders<User>.Filter
                     .Where(doc => doc.Email.Contains(searchText) ||
                                   doc.NameSurname!.Contains(searchText));
-
             }
             else
             {
@@ -33,9 +32,9 @@ namespace Infrastructure.Repositories
 
             var docs = Collection.Find(filter);
 
-            response.TotalCount = await docs.CountDocumentsAsync();
+            response.RecordsTotal = await docs.CountDocumentsAsync();
 
-            if (response.TotalCount > 0)
+            if (response.RecordsTotal > 0)
             {
                 response.Items = await docs
                     .SortByDescending(p => p.Id)

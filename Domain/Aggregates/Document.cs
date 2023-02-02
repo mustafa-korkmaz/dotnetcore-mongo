@@ -21,6 +21,15 @@ namespace Domain.Aggregates
         DateTime CreatedAt { get; }
     }
 
+    public class ListDocumentRequest
+    {
+        public bool IncludeRecordsTotal { get; set; }
+
+        public int Offset { get; set; }
+
+        public int Limit { get; set; }
+    }
+
     public class ListDocumentResponse<TDocument> where TDocument : IDocument
     {
         /// <summary>
@@ -31,6 +40,6 @@ namespace Domain.Aggregates
         /// <summary>
         /// Total count of items stored in repository
         /// </summary>
-        public long TotalCount { get; set; }
+        public long RecordsTotal { get; set; }
     }
 }

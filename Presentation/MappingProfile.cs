@@ -32,6 +32,10 @@ namespace Presentation
             CreateMap<AddEditOrderItemViewModel, OrderItemDto>();
             CreateMap<OrderDto, OrderViewModel>();
             CreateMap<OrderItemDto, OrderItemViewModel>();
+
+            CreateMap<ListViewModelRequest, ListDtoRequest>();
+            CreateMap(typeof(ListDtoResponse<>), typeof(ListViewModelResponse<>));
+
         }
     }
 }

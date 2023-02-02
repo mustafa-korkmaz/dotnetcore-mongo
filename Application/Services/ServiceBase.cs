@@ -21,7 +21,7 @@ namespace Application.Services
         public ServiceBase(IUnitOfWork uow, ILogger logger, IMapper mapper)
         {
             Uow = uow;
-            Repository = Uow.GetRepository<TRepository, TDocument>();
+            Repository = Uow.GetRepository<TRepository>();
             Logger = logger;
             Mapper = mapper;
         }
@@ -38,9 +38,11 @@ namespace Application.Services
             return Mapper.Map<TDocument, TDto>(document);
         }
 
-        public virtual async Task<ListDtoResponse<TDto>> ListAsync(int offset, int limit)
+        public virtual async Task<ListDtoResponse<TDto>> ListAsync(ListDtoRequest request)
         {
-            var resp = await Repository.ListAsync(offset, limit);
+            var documentRequest = Mapper.Map<ListDocumentRequest>(request);
+
+            var resp = await Repository.ListAsync(documentRequest);
 
             return Mapper.Map<ListDocumentResponse<TDocument>, ListDtoResponse<TDto>>(resp);
         }

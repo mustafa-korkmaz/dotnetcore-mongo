@@ -57,6 +57,9 @@ namespace Application
 
                     return order;
                 });
+
+            CreateMap<ListDtoRequest, ListDocumentRequest>();
+            CreateMap(typeof(ListDocumentResponse<>), typeof(ListDtoResponse<>));
         }
     }
 }

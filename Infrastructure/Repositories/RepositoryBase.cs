@@ -16,22 +16,23 @@ namespace Infrastructure.Repositories
             Collection = _mongoContext.GetCollection<TDocument>();
         }
 
-        public async Task<ListDocumentResponse<TDocument>> ListAsync(int offset, int limit)
+        public async Task<ListDocumentResponse<TDocument>> ListAsync(ListDocumentRequest request)
         {
             var response = new ListDocumentResponse<TDocument>();
 
             var docs = Collection.Find(new BsonDocument());
 
-            response.TotalCount = await docs.CountDocumentsAsync();
 
-            if (response.TotalCount > 0)
+            if (request.IncludeRecordsTotal)
             {
-                response.Items = await docs
-                    .SortByDescending(p => p.Id)
-                    .Skip(offset)
-                    .Limit(limit)
-                    .ToListAsync();
+                response.RecordsTotal = await docs.CountDocumentsAsync();
             }
+
+            response.Items = await docs
+                .SortByDescending(p => p.Id)
+                .Skip(request.Offset)
+                .Limit(request.Limit)
+                .ToListAsync();
 
             return response;
         }
