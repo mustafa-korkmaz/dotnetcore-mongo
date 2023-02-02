@@ -19,8 +19,6 @@ namespace Application
             CreateMap<DtoBase, Document>()
                 .ConvertUsing(src => new Document(src.Id));
 
-            CreateMap(typeof(ListDocumentResponse<>), typeof(ListDtoResponse<>));
-
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>()
               .ConvertUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice, src.StockQuantity));
