@@ -60,6 +60,11 @@ namespace Application.Services
 
         public virtual async Task UpdateAsync(TDto dto)
         {
+            if (dto.Id == null)
+            {
+                throw new ValidationException(ErrorMessages.RecordNotFound);
+            }
+
             var document = await GetByIdAsync(dto.Id);
 
             if (document == null)
