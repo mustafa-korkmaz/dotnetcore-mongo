@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace Infrastructure.Repositories
 {
-    internal class UserRepository : RepositoryBase<User>, IUserRepository
+    public class UserRepository : RepositoryBase<User>, IUserRepository
     {
         public UserRepository(IMongoContext context) : base(context)
         {

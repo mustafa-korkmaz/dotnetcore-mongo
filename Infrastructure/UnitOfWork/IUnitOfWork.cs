@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.UnitOfWork
+﻿namespace Infrastructure.UnitOfWork
 {
     public interface IUnitOfWork : IDisposable
     {
@@ -10,6 +9,6 @@ namespace Infrastructure.UnitOfWork
         /// </summary>
         /// <typeparam name="TRepository"></typeparam>
         /// <returns></returns>
-        TRepository GetRepository<TRepository>();
+        TRepository GetRepository<TRepository>() where TRepository : class;
     }
 }

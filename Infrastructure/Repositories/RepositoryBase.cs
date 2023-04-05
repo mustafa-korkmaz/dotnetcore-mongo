@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
         private protected readonly IMongoCollection<TDocument> Collection;
         private readonly IMongoContext _mongoContext;
 
-        public RepositoryBase(IMongoContext context)
+        protected RepositoryBase(IMongoContext context)
         {
             _mongoContext = context;
             Collection = _mongoContext.GetCollection<TDocument>();
@@ -21,8 +21,7 @@ namespace Infrastructure.Repositories
             var response = new ListDocumentResponse<TDocument>();
 
             var docs = Collection.Find(new BsonDocument());
-
-
+            
             if (request.IncludeRecordsTotal)
             {
                 response.RecordsTotal = await docs.CountDocumentsAsync();

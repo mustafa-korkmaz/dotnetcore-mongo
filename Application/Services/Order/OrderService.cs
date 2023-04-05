@@ -1,23 +1,22 @@
-﻿
-using Application.Constants;
+﻿using Application.Constants;
 using Application.Dto.Order;
 using Application.Exceptions;
 using AutoMapper;
-using Domain.Aggregates.Order;
 using Domain.Aggregates.Product;
 using Infrastructure.UnitOfWork;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Services.Order
 {
-    public class OrderService : ServiceBase<IOrderRepository, Domain.Aggregates.Order.Order, OrderDto>, IOrderService
+    public class OrderService : ServiceBase<OrderRepository, Domain.Aggregates.Order.Order, OrderDto>, IOrderService
     {
         private readonly IProductRepository _productRepository;
 
         public OrderService(IUnitOfWork uow, ILogger<OrderService> logger, IMapper mapper)
-        : base(uow, logger, mapper)
+            : base(uow, logger, mapper)
         {
-            _productRepository = Uow.GetRepository<IProductRepository>();
+            _productRepository = Uow.GetRepository<ProductRepository>();
         }
 
         public override async Task AddAsync(OrderDto dto)

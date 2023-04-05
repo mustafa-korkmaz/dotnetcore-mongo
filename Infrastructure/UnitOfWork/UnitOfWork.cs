@@ -1,6 +1,4 @@
-﻿
-using Infrastructure.Persistence.MongoDb;
-using System.Reflection;
+﻿using Infrastructure.Persistence.MongoDb;
 
 namespace Infrastructure.UnitOfWork
 {
@@ -16,28 +14,24 @@ namespace Infrastructure.UnitOfWork
             _repositories = new Dictionary<string, object>();
         }
 
-        public TRepository GetRepository<TRepository>()
+        public TRepository GetRepository<TRepository>() where TRepository : class
         {
-            var type = typeof(TRepository).Name;
+            var repositoryType = typeof(TRepository);
+            var repositoryName = repositoryType.Name;
 
-            if (!_repositories.ContainsKey(type))
+            if (_repositories.ContainsKey(repositoryType.Name))
+                return (TRepository)_repositories[repositoryName];
+
+            var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
+
+            if (repositoryInstance == null)
             {
-                var repositoryInterfaceType = typeof(TRepository);
-
-                var assignedTypesToRepositoryInterface = Assembly.GetExecutingAssembly().GetTypes().Where(t => repositoryInterfaceType.IsAssignableFrom(t)); //all types of your plugin
-
-                var repositoryType = assignedTypesToRepositoryInterface.First(p => p.Name[0] != 'I'); //filter interfaces, select only first implemented class
-
-                var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
-
-                if (repositoryInstance == null)
-                {
-                    throw new ArgumentNullException(nameof(repositoryInstance));
-                }
-
-                _repositories.Add(type, repositoryInstance);
+                throw new ArgumentNullException(nameof(repositoryInstance));
             }
-            return (TRepository)_repositories[type];
+
+            _repositories.Add(repositoryName, repositoryInstance);
+
+            return (TRepository)_repositories[repositoryName];
         }
 
         public async Task UseTransactionAsync(Func<Task> transactionBody)
@@ -64,6 +58,5 @@ namespace Infrastructure.UnitOfWork
         {
             _context.Dispose();
         }
-
     }
 }

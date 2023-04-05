@@ -8,7 +8,7 @@ using Application.Dto.User;
 using Application.Exceptions;
 using AutoMapper;
 using Domain.Aggregates;
-using Domain.Aggregates.User;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Infrastructure.UnitOfWork;
 using Microsoft.Extensions.Logging;
@@ -16,7 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.User
 {
-    public class UserService : ServiceBase<IUserRepository, Domain.Aggregates.User.User, UserDto>, IUserService
+    public class UserService : ServiceBase<UserRepository, Domain.Aggregates.User.User, UserDto>, IUserService
     {
         public UserService(IUnitOfWork uow, ILogger<UserService> logger, IMapper mapper)
         : base(uow, logger, mapper)

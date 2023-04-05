@@ -5,20 +5,21 @@ using Microsoft.Extensions.Logging;
 using AutoMapper;
 using Application.Constants;
 using Application.Exceptions;
+using Infrastructure.Repositories;
 
 namespace Application.Services
 {
     public class ServiceBase<TRepository, TDocument, TDto> : IService<TDto>
         where TDocument : IDocument
         where TDto : DtoBase
-        where TRepository : IRepository<TDocument>
+        where TRepository : RepositoryBase<TDocument>
     {
         protected readonly IUnitOfWork Uow;
         protected readonly TRepository Repository;
         protected readonly IMapper Mapper;
         protected readonly ILogger Logger;
 
-        public ServiceBase(IUnitOfWork uow, ILogger logger, IMapper mapper)
+        protected ServiceBase(IUnitOfWork uow, ILogger logger, IMapper mapper)
         {
             Uow = uow;
             Repository = Uow.GetRepository<TRepository>();
