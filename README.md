@@ -1,5 +1,5 @@
 # dotnet-mongo
-My boilerplate dotnet core &amp; mongo solution including domain driven design approach
+My boilerplate dotnet &amp; mongo solution including generic repository pattern using domain driven design approach
 
 ### MongoDB replica set setup
 1. Change your directory  
